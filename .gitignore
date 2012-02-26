@@ -1,0 +1,14 @@
+.project
+.classpath
+.DS_Store
+.settings/
+nbproject/
+build/
+dist/
+target/
+web/src/main/webapp/META-INF/
+*.log
+*.iml
+*.ipr
+*.iws
+*.jsfdia

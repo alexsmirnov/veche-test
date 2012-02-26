@@ -1,0 +1,9 @@
+
+                <security-domain name="roast" cache-type="default">
+                    <authentication-jaspi>
+                        <login-module-stack name="roast-login">
+                            <login-module code="Simple" flag="required"/>
+                        </login-module-stack>
+                        <auth-module code="name.aikesommer.authenticator.AuthModule" login-module-stack-ref="roast-login"/>
+                    </authentication-jaspi>
+                </security-domain>
