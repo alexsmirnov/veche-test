@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.netoprise</groupId>
-  <artifactId>socialsecurity-test</artifactId>
+  <artifactId>veche-test</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>socialsecurity-test Maven Webapp</name>
+  <name>veche-test Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -16,7 +16,7 @@
     </dependency>
     <dependency>
     	<groupId>com.netoprise</groupId>
-    	<artifactId>socialsecurity</artifactId>
+    	<artifactId>veche</artifactId>
     	<version>0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -36,7 +36,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>socialsecurity-test</finalName>
+    <finalName>veche-test</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
