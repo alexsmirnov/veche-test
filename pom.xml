@@ -78,6 +78,11 @@
     	<artifactId>veche</artifactId>
     	<version>0.1-SNAPSHOT</version>
     </dependency>
+		<dependency>
+			<groupId>org.jboss.solder</groupId>
+			<artifactId>solder-impl</artifactId>
+			<version>${solder.version}</version>
+		</dependency>
     <dependency>
     	<groupId>name.aikesommer</groupId>
     	<artifactId>AuthenticRoast-API</artifactId>

@@ -1,7 +1,9 @@
 <jboss>
+<!--
 	<security-domain>roast</security-domain>
 	<valve>
 		<class-name>org.jboss.as.web.security.jaspi.WebJASPIAuthenticator
 		</class-name>
 	</valve>
+	-->
 </jboss>
