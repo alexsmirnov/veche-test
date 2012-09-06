@@ -18,12 +18,15 @@ import javax.inject.Named;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.netoprise.veche.ApiServiceProvider;
+import com.netoprise.veche.ApiSession;
 import com.netoprise.veche.ApplicationCredentials;
 import com.netoprise.veche.OAuthException;
 import com.netoprise.veche.OAuthSession;
 import com.netoprise.veche.Provider;
 import com.netoprise.veche.ProviderId;
 import com.netoprise.veche.ServiceProvider;
+import com.netoprise.veche.UserProfileSession;
 import com.netoprise.veche.cdi.Api;
 import com.netoprise.veche.cdi.Login;
 import com.netoprise.veche.cdi.Register;
@@ -88,12 +91,31 @@ public class Configuration {
     @Produces
     @Login
     public List<OAuthController<OAuthSession>> logins(@Login List<ServiceProvider<OAuthSession>> providers,final VerifierCache cache){
-	return Lists.transform(providers, new Function<ServiceProvider<OAuthSession>, OAuthController<OAuthSession>>() {
+	return Lists.transform(providers, oauthControllerTransformer(cache,"/login.xhtml"));
+    }
+
+    private <S extends OAuthSession> Function<ServiceProvider<S>, OAuthController<S>> oauthControllerTransformer(final VerifierCache cache, final String callbackView) {
+	return new Function<ServiceProvider<S>, OAuthController<S>>() {
 
 	    @Override
-            public OAuthController<OAuthSession> apply(@Nullable ServiceProvider<OAuthSession> provider) {
-	        return new OAuthController<OAuthSession>(cache, provider, "/login.xhtml");
+            public OAuthController<S> apply(@Nullable ServiceProvider<S> provider) {
+	        return new OAuthController<S>(cache, provider, callbackView);
             }
-	});
+	};
+    }
+
+    @RequestScoped
+    @Named("registers")
+    @Produces
+    @Register
+    public List<OAuthController<UserProfileSession>> registers(@Register List<ServiceProvider<UserProfileSession>> providers,final VerifierCache cache){
+	return Lists.transform(providers, this.<UserProfileSession>oauthControllerTransformer(cache,"/register.xhtml"));
+    }
+    @RequestScoped
+    @Named("apis")
+    @Produces
+    @Api
+    public List<OAuthController<ApiSession>> apis(@Api List<ApiServiceProvider> providers,final VerifierCache cache){
+	return Lists.transform(providers, this.<ApiSession>oauthControllerTransformer(cache,"/api.xhtml"));
     }
 }

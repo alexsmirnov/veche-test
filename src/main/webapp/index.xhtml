@@ -9,7 +9,24 @@
 <h:head></h:head>
 <h:body>
   <h:form>
+  <h2>Login with:</h2>
   <h:dataTable value="#{logins}" var="login">
+     <h:column>
+      <h:commandLink action="#{login.action}">
+       <h:outputText value="#{login.name}"/>
+      </h:commandLink>
+     </h:column>
+  </h:dataTable>
+  <h2>Register with:</h2>
+  <h:dataTable value="#{registers}" var="login">
+     <h:column>
+      <h:commandLink action="#{login.action}">
+       <h:outputText value="#{login.name}"/>
+      </h:commandLink>
+     </h:column>
+  </h:dataTable>
+  <h2>Authorize application for full access with:</h2>
+  <h:dataTable value="#{apis}" var="login">
      <h:column>
       <h:commandLink action="#{login.action}">
        <h:outputText value="#{login.name}"/>
