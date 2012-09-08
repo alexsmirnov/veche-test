@@ -7,12 +7,14 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.inject.Inject;
 
+import com.google.common.base.Optional;
 import com.netoprise.veche.CallbackVerifier;
 import com.netoprise.veche.OAuthSession;
+import com.netoprise.veche.SessionOrDenied;
 import com.netoprise.veche.cdi.VerifierCache;
 
 @Model
-public class LoginBean implements PhaseListener {
+public class LoginBean extends PageActionListener {
 
     private int scope = Integer.MIN_VALUE;
 
@@ -41,33 +43,32 @@ public class LoginBean implements PhaseListener {
     }
 
     @Override
-    public void afterPhase(PhaseEvent event) {
-    }
-
-    @Override
-    public void beforePhase(PhaseEvent event) {
-	try {
-	    FacesContext facesContext = event.getFacesContext();
-	    if (!facesContext.isPostback()) {
-		if (this.scope > Integer.MIN_VALUE) {
-		    CallbackVerifier<OAuthSession> callbackVerifier = cache.getVerifier(scope);
-		    OAuthSession oAuthSession = callbackVerifier.verify(facesContext.getExternalContext().getRequestParameterMap());
+    public String action() {
+	String result;
+	if (this.scope > Integer.MIN_VALUE) {
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    Optional<CallbackVerifier<OAuthSession>> callbackVerifierOption = cache.getVerifier(scope);
+	    if (callbackVerifierOption.isPresent()) {
+		CallbackVerifier<OAuthSession> callbackVerifier = callbackVerifierOption.get();
+		SessionOrDenied<OAuthSession> sessionOrDenied = callbackVerifier.verify(facesContext.getExternalContext()
+		        .getRequestParameterMap());
+		if (sessionOrDenied.isAuthtorized()) {
+		    OAuthSession oAuthSession = sessionOrDenied.getSession();
 		    this.message = "Verified " + callbackVerifier.getProviderId() + "user id: " + oAuthSession.getClientId();
+		    result = "success";
 		} else {
-		    this.message = "Missed scope param";
+		    this.message = "oAuth error: " + sessionOrDenied.getErrorDescription();
+		    result = "denied";
 		}
 	    } else {
-		this.message = "Faces Postback";
+		this.message = "Missed verifier in cache";
+		result = "verifierError";
 	    }
-
-	} catch (Exception e) {
-	    this.message = "ERROR: " + e.getMessage();
+	} else {
+	    this.message = "Missed scope param";
+	    result = "missedScope";
 	}
-    }
-
-    @Override
-    public PhaseId getPhaseId() {
-	return PhaseId.INVOKE_APPLICATION;
+        return result;
     }
 
 }
