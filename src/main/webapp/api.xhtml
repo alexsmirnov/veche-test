@@ -6,15 +6,15 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <f:view>
 <f:metadata>
-            <f:viewParam id="scope" name="scope" value="#{loginBean.scope}" required="true" />
-            <f:phaseListener binding="#{loginBean}"/>   
+            <f:viewParam id="scope" name="scope" value="#{callbackAction.scope}" required="true" />
+            <f:phaseListener binding="#{callbackAction}"/>   
 </f:metadata>
 <h:head></h:head>
 <h:body>
  <h1>OAuth api callback</h1>
  <h:link outcome="index" value="Home"/>
   <h:form>
-  <p>Scope key: #{loginBean.scope}</p>
+  <p>Scope key: #{callbackAction.scope}</p>
   <p>#{loginBean.message}</p>
   </h:form>
 </h:body>
