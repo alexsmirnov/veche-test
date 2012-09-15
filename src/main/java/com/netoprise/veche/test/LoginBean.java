@@ -12,6 +12,7 @@ import com.netoprise.veche.CallbackVerifier;
 import com.netoprise.veche.OAuthSession;
 import com.netoprise.veche.SessionOrDenied;
 import com.netoprise.veche.cdi.VerifierCache;
+import com.netoprise.veche.faces.PageActionListener;
 
 @Model
 public class LoginBean extends PageActionListener {
@@ -43,7 +44,7 @@ public class LoginBean extends PageActionListener {
     }
 
     @Override
-    public String action() {
+    public String performAction() {
 	String result;
 	if (this.scope > Integer.MIN_VALUE) {
 	    FacesContext facesContext = FacesContext.getCurrentInstance();
