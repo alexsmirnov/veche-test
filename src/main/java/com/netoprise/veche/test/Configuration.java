@@ -111,6 +111,7 @@ public class Configuration {
     public List<OAuthController<UserProfileSession>> registers(@Register List<ServiceProvider<UserProfileSession>> providers,final VerifierCache cache){
 	return Lists.transform(providers, this.<UserProfileSession>oauthControllerTransformer(cache,"/register.xhtml"));
     }
+    
     @RequestScoped
     @Named("apis")
     @Produces
